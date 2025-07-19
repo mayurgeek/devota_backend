@@ -5,7 +5,7 @@ import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
 const router = Router();
 
 // Public routes
-router.post('/check-access', projectController.checkAccess);
+router.get('/check-access', projectController.checkAccess);
 
 // Protected admin routes
 router.get('/projects', authMiddleware, adminMiddleware, projectController.getAllProjects);

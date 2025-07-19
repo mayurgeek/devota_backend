@@ -106,7 +106,7 @@ export async function unblockProject(req: Request, res: Response): Promise<void>
 
 export async function checkAccess(req: Request, res: Response): Promise<void> {
   try {
-    const { projectId, name, status = 'allowed' } = req.body;
+    const { projectId, name, status = 'allowed' } = req.params;
 
     // Validate required fields
     if (!projectId) {
