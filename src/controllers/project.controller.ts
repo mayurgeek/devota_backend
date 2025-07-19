@@ -106,8 +106,10 @@ export async function unblockProject(req: Request, res: Response): Promise<void>
 
 export async function checkAccess(req: Request, res: Response): Promise<void> {
   try {
-    const { projectId, name, status = 'allowed' } = req.params;
-
+    const { projectId, name, status = 'allowed' } = req.query;
+    console.log("projectId", projectId);
+    console.log("name", name);
+    console.log("status", status);
     // Validate required fields
     if (!projectId) {
       res.status(400).json({ success: false, message: 'Project ID is required' });
@@ -115,7 +117,7 @@ export async function checkAccess(req: Request, res: Response): Promise<void> {
     }
 
     let project
-    project = await projectModel.getProjectByProjectId(projectId);
+    project = await projectModel.getProjectByProjectId(projectId as string);
 
     // If project doesn't exist, deny access
     if (!project) {
@@ -123,10 +125,10 @@ export async function checkAccess(req: Request, res: Response): Promise<void> {
       // return;
       
     // Create new project
-      const projectData = { project_id: projectId, name, status: status as 'allowed' | 'blocked' };
+      const projectData = { project_id: projectId as string, name: name as string, status: status as 'allowed' | 'blocked' };
       await projectModel.createProject(projectData);
     // Fetch the created project  
-      project = await projectModel.getProjectByProjectId(projectId);
+      project = await projectModel.getProjectByProjectId(projectId as string);
     }
 
     // Check if project is allowed to run
